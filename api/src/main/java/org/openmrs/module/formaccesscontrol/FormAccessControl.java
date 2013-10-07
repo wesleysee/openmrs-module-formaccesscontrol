@@ -14,17 +14,31 @@
 package org.openmrs.module.formaccesscontrol;
 
 import java.io.Serializable;
-import org.openmrs.BaseOpenmrsObject;
+
 import org.openmrs.BaseOpenmrsMetadata;
+import org.openmrs.BaseOpenmrsObject;
+import org.openmrs.Form;
+import org.openmrs.Role;
 
 /**
- * It is a model class. It should extend either {@link BaseOpenmrsObject} or {@link BaseOpenmrsMetadata}.
+ * It is a model class. It should extend either {@link BaseOpenmrsObject} or
+ * {@link BaseOpenmrsMetadata}.
  */
 public class FormAccessControl extends BaseOpenmrsObject implements Serializable {
-
+	
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
+	
+	private Form form;
+	
+	private Role role;
+	
+	private boolean canCreate;
+	
+	private boolean canView;
+	
+	private boolean canUpdate;
 	
 	@Override
 	public Integer getId() {
@@ -34,6 +48,46 @@ public class FormAccessControl extends BaseOpenmrsObject implements Serializable
 	@Override
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public Form getForm() {
+		return form;
+	}
+	
+	public void setForm(Form form) {
+		this.form = form;
+	}
+	
+	public Role getRole() {
+		return role;
+	}
+	
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	
+	public boolean isCanCreate() {
+		return canCreate;
+	}
+	
+	public void setCanCreate(boolean canCreate) {
+		this.canCreate = canCreate;
+	}
+	
+	public boolean isCanView() {
+		return canView;
+	}
+	
+	public void setCanView(boolean canView) {
+		this.canView = canView;
+	}
+	
+	public boolean isCanUpdate() {
+		return canUpdate;
+	}
+	
+	public void setCanUpdate(boolean canUpdate) {
+		this.canUpdate = canUpdate;
 	}
 	
 }

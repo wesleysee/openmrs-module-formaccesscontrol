@@ -15,22 +15,47 @@
 	<require_version>${openMRSVersion}</require_version>
 	<!-- / Module Properties -->
 
+	<aware_of_modules>
+        <aware_of_module version="2.2">org.openmrs.module.htmlformentry</aware_of_module>
+ 	</aware_of_modules>
 	
 	<!-- Module Activator -->
 	<activator>${project.parent.groupId}.${project.parent.artifactId}.FormAccessControlActivator</activator>
 	
-	
-	<!-- Adds link to admin page -->
+	<!-- Adds link to form edit page -->
 	<extension>
-		<point>org.openmrs.admin.list</point>
-		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList</class>
+		<point>org.openmrs.admin.forms.formHeader</point>
+		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.FormHeaderExt</class>
 	</extension>
 	
+	<advice>
+		<point>org.openmrs.api.FormService</point>
+		<class>@MODULE_PACKAGE@.api.advice.FormServiceAdvice</class>
+	</advice>
+	
+	<advice>
+		<point>org.openmrs.api.UserService</point>
+		<class>@MODULE_PACKAGE@.api.advice.UserServiceAdvice</class>
+	</advice>
+	
+	<advice>
+		<point>org.openmrs.api.ObsService</point>
+		<class>@MODULE_PACKAGE@.api.advice.ObsServiceAdvice</class>
+	</advice>
+	
+	<advice>
+		<point>org.openmrs.api.EncounterService</point>
+		<class>@MODULE_PACKAGE@.api.advice.EncounterServiceAdvice</class>
+	</advice>
+	
+	<advice>
+		<point>org.openmrs.module.htmlformentry.HtmlFormEntryService</point>
+		<class>@MODULE_PACKAGE@.api.advice.HtmlFormEntryServiceAdvisor</class>
+	</advice>
+	
 	<!-- Maps hibernate file's, if present -->
-	<mappingFiles>
-				
-		FormAccessControl.hbm.xml
-				
+	<mappingFiles>				
+		FormAccessControl.hbm.xml				
 	</mappingFiles>
 
 	<!-- Internationalization -->
@@ -38,14 +63,6 @@
 	<messages>
 		<lang>en</lang>
 		<file>messages.properties</file>
-	</messages>
-	<messages>
-		<lang>fr</lang>
-		<file>messages_fr.properties</file>
-	</messages>
-	<messages>
-		<lang>es</lang>
-		<file>messages_es.properties</file>
 	</messages>
 	<!-- /Internationalization -->
 
