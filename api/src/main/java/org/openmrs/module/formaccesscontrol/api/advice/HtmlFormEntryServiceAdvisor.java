@@ -21,9 +21,13 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.api.APIAuthenticationException;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.formaccesscontrol.Constants;
 import org.openmrs.module.formaccesscontrol.api.FormAccessControlService;
 import org.openmrs.module.htmlformentry.HtmlForm;
+import org.openmrs.module.htmlformentry.ValidationException;
+import org.openmrs.util.OpenmrsUtil;
 import org.springframework.aop.Advisor;
 
 /**
@@ -47,10 +51,18 @@ public class HtmlFormEntryServiceAdvisor implements Advisor {
 		
 		@Override
 		public Object invoke(MethodInvocation invocation) throws Throwable {
+			String methodName = invocation.getMethod().getName();
+			if (methodName.equals("applyActions")) {
+				try {
+					return invocation.proceed();
+				}
+				catch (APIAuthenticationException e) {
+					throw new ValidationException(e.getMessage());
+				}
+			}
+			
 			Object o = invocation.proceed();
 			
-			String methodName = invocation.getMethod().getName();
-			System.out.println("method: " + methodName);
 			if (methodName.equals("getAllHtmlForms")) {
 				@SuppressWarnings("unchecked")
 				List<HtmlForm> htmlForms = (List<HtmlForm>) o;
@@ -66,7 +78,8 @@ public class HtmlFormEntryServiceAdvisor implements Advisor {
 				FormAccessControlService svc = Context.getService(FormAccessControlService.class);
 				HtmlForm htmlForm = (HtmlForm) o;
 				if (!svc.hasViewPrivilege(htmlForm.getForm())) {
-					return null;
+					throw new APIAuthenticationException(OpenmrsUtil.getMessage(Constants.MODULE_ID + ".privilegeRequired",
+					    "View"));
 				}
 			}
 			

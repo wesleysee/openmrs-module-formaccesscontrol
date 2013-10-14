@@ -53,7 +53,6 @@ public class FormAccessControlController {
 		
 		FormAccessControlService svc = Context.getService(FormAccessControlService.class);
 		for (FormAccessControl formAccessControl : formAccessControlForm.getFormAccessControls()) {
-			System.out.println("fac: " + formAccessControl.getRole() + " :: " + formAccessControl.isCanCreate());
 			svc.saveFormAccessControl(formAccessControl);
 		}
 		

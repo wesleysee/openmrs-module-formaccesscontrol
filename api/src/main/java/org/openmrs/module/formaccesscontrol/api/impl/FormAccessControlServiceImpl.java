@@ -16,6 +16,7 @@ package org.openmrs.module.formaccesscontrol.api.impl;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Form;
@@ -147,22 +148,48 @@ public class FormAccessControlServiceImpl extends BaseOpenmrsService implements 
 		});
 	}
 	
-	public boolean hasPrivilege(Form form, Predicate<FormAccessControl> predicate) throws APIException {
+	@Override
+	@Transactional(readOnly = true)
+	public boolean hasPrivilege(Form form, String privilege) {
+		if (StringUtils.equalsIgnoreCase(privilege, "CREATE")) {
+			return hasCreatePrivilege(form);
+		} else if (StringUtils.equalsIgnoreCase(privilege, "UPDATE") || StringUtils.equalsIgnoreCase(privilege, "EDIT")) {
+			return hasUpdatePrivilege(form);
+		} else if (StringUtils.equalsIgnoreCase(privilege, "VIEW")) {
+			return hasViewPrivilege(form);
+		} else {
+			throw new IllegalArgumentException("Privilege not defined: " + privilege);
+		}
+	}
+	
+	private boolean hasPrivilege(Form form, Predicate<FormAccessControl> predicate) throws APIException {
 		try {
+			if (form == null) {
+				return true;
+			}
+			
 			Set<Role> roles = Context.getUserContext().getAllRoles();
 			
 			for (Role role : roles) {
-				if (role.getRole().equals(RoleConstants.SUPERUSER)) {
-					return true;
-				}
-				FormAccessControl fac = getFormAccessControl(form, role);
-				if (fac != null && predicate.apply(fac)) {
+				if (hasPrivilege(role, form, predicate)) {
 					return true;
 				}
 			}
+			
+			return hasPrivilege(Context.getUserService().getRole(RoleConstants.AUTHENTICATED), form, predicate);
 		}
 		catch (Exception e) {
 			throw new APIException(e);
+		}
+	}
+	
+	private boolean hasPrivilege(Role role, Form form, Predicate<FormAccessControl> predicate) {
+		if (role.getRole().equals(RoleConstants.SUPERUSER)) {
+			return true;
+		}
+		FormAccessControl fac = getFormAccessControl(form, role);
+		if (fac != null && predicate.apply(fac)) {
+			return true;
 		}
 		return false;
 	}

@@ -45,13 +45,23 @@
 	
 	<advice>
 		<point>org.openmrs.api.EncounterService</point>
-		<class>@MODULE_PACKAGE@.api.advice.EncounterServiceAdvice</class>
+		<class>@MODULE_PACKAGE@.api.advice.EncounterServiceAdvisor</class>
 	</advice>
 	
 	<advice>
 		<point>org.openmrs.module.htmlformentry.HtmlFormEntryService</point>
 		<class>@MODULE_PACKAGE@.api.advice.HtmlFormEntryServiceAdvisor</class>
 	</advice>
+	
+	<privilege>
+		<name>Manage Form Access Control</name>
+		<description>Able to manage and configure form access controls</description>
+	</privilege>
+	
+	<privilege>
+		<name>View Form Access Control</name>
+		<description>Able to view form access controls</description>
+	</privilege>
 	
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>				

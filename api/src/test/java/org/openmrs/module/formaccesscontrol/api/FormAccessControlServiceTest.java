@@ -13,15 +13,16 @@
  */
 package org.openmrs.module.formaccesscontrol.api;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Test;
 import org.openmrs.api.context.Context;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
 /**
- * Tests {@link ${FormAccessControlService}}.
+ * Tests {@link $ FormAccessControlService} .
  */
-public class  FormAccessControlServiceTest extends BaseModuleContextSensitiveTest {
+public class FormAccessControlServiceTest extends BaseModuleContextSensitiveTest {
 	
 	@Test
 	public void shouldSetupContext() {

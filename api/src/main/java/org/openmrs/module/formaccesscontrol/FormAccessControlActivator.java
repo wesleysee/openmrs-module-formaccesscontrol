@@ -60,11 +60,10 @@ public class FormAccessControlActivator implements ModuleActivator {
 	@Override
 	public void started() {
 		log.info("Form Access Control Module started");
-		System.out.println("======inside started");
 		
 		Context.addProxyPrivilege("View Forms");
-		Context.addProxyPrivilege("View Form Access Control");
-		Context.addProxyPrivilege("Manage Form Access Control");
+		Context.addProxyPrivilege(Constants.PRIV_VIEW_FORM_ACCESS_CONTROL);
+		Context.addProxyPrivilege(Constants.PRIV_MANAGE_FORM_ACCESS_CONTROL);
 		
 		UserService userService = Context.getUserService();
 		FormAccessControlService svc = Context.getService(FormAccessControlService.class);
@@ -86,8 +85,8 @@ public class FormAccessControlActivator implements ModuleActivator {
 		}
 		
 		Context.removeProxyPrivilege("View Forms");
-		Context.removeProxyPrivilege("View Form Access Control");
-		Context.removeProxyPrivilege("Manage Form Access Control");
+		Context.removeProxyPrivilege(Constants.PRIV_VIEW_FORM_ACCESS_CONTROL);
+		Context.removeProxyPrivilege(Constants.PRIV_MANAGE_FORM_ACCESS_CONTROL);
 	}
 	
 	/**

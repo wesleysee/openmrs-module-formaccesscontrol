@@ -125,12 +125,76 @@ public interface FormAccessControlService extends OpenmrsService {
 	@Authorized(Constants.PRIV_MANAGE_FORM_ACCESS_CONTROL)
 	public void deleteFormAccessControls(Role role) throws APIException;
 	
+	/**
+	 * Tests whether or not currently authenticated user has create privilege for the given form
+	 * 
+	 * @param form
+	 * @return true if authenticated user has given privilege
+	 * @throws APIException
+	 * @should authorize if authenticated user has create privilege for the specified form
+	 * @should authorize if authenticated role has create privilege for the specified form
+	 * @should authorize if anonymous user has create privilege for the specified form
+	 * @should not authorize if authenticated user does not have create privilege for the specified
+	 *         form
+	 * @should not authorize if authenticated role does not have create privilege for the specified
+	 *         form
+	 * @should not authorize if anonymous user does not have create privilege for the specified form
+	 */
 	@Transactional(readOnly = true)
 	public boolean hasCreatePrivilege(Form form) throws APIException;
 	
+	/**
+	 * Tests whether or not currently authenticated user has view privilege for the given form
+	 * 
+	 * @param form
+	 * @return true if authenticated user has given privilege
+	 * @throws APIException
+	 * @should authorize if authenticated user has view privilege for the specified form
+	 * @should authorize if authenticated role has view privilege for the specified form
+	 * @should authorize if anonymous user has view privilege for the specified form
+	 * @should not authorize if authenticated user does not have view privilege for the specified
+	 *         form
+	 * @should not authorize if authenticated role does not have view privilege for the specified
+	 *         form
+	 * @should not authorize if anonymous user does not have view privilege for the specified form
+	 */
 	@Transactional(readOnly = true)
 	public boolean hasViewPrivilege(Form form) throws APIException;
 	
+	/**
+	 * Tests whether or not currently authenticated user has update privilege for the given form
+	 * 
+	 * @param form
+	 * @return true if authenticated user has given privilege
+	 * @throws APIException
+	 * @should authorize if authenticated user has update privilege for the specified form
+	 * @should authorize if authenticated role has update privilege for the specified form
+	 * @should authorize if anonymous user has update privilege for the specified form
+	 * @should not authorize if authenticated user does not have update privilege for the specified
+	 *         form
+	 * @should not authorize if authenticated role does not have update privilege for the specified
+	 *         form
+	 * @should not authorize if anonymous user does not have update privilege for the specified form
+	 */
 	@Transactional(readOnly = true)
 	public boolean hasUpdatePrivilege(Form form) throws APIException;
+	
+	/**
+	 * Tests whether or not currently authenticated user has specified privilege for the given form
+	 * 
+	 * @param form
+	 * @return true if authenticated user has given privilege
+	 * @throws APIException
+	 * @should authorize if authenticated user has specified privilege for the specified form
+	 * @should authorize if authenticated role has specified privilege for the specified form
+	 * @should authorize if anonymous user has specified privilege for the specified form
+	 * @should not authorize if authenticated user does not have specified privilege for the
+	 *         specified form
+	 * @should not authorize if authenticated role does not have specified privilege for the
+	 *         specified form
+	 * @should not authorize if anonymous user does not have specified privilege for the specified
+	 *         form
+	 */
+	@Transactional(readOnly = true)
+	public boolean hasPrivilege(Form form, String privilege) throws APIException;
 }

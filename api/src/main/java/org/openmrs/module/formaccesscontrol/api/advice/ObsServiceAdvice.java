@@ -21,7 +21,9 @@ import org.openmrs.Form;
 import org.openmrs.Obs;
 import org.openmrs.api.APIAuthenticationException;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.formaccesscontrol.Constants;
 import org.openmrs.module.formaccesscontrol.api.FormAccessControlService;
+import org.openmrs.util.OpenmrsUtil;
 import org.springframework.aop.MethodBeforeAdvice;
 
 /**
@@ -46,8 +48,8 @@ public class ObsServiceAdvice implements MethodBeforeAdvice {
 				FormAccessControlService svc = Context.getService(FormAccessControlService.class);
 				boolean hasPrivilege = obs.getId() != null ? svc.hasUpdatePrivilege(form) : svc.hasCreatePrivilege(form);
 				if (!hasPrivilege) {
-					throw new APIAuthenticationException("Form Privilege required: "
-					        + (obs.getId() != null ? "Edit" : "Create"));
+					throw new APIAuthenticationException(OpenmrsUtil.getMessage(Constants.MODULE_ID + ".privilegeRequired",
+					    (obs.getId() != null ? "Edit" : "Create")));
 				}
 			}
 		}
