@@ -107,7 +107,7 @@ public interface FormAccessControlService extends OpenmrsService {
 	 * 
 	 * @param form
 	 * @throws APIException
-	 * @should delete given forms successfully
+	 * @should delete form access controls for form successfully
 	 */
 	@Transactional
 	@Authorized(Constants.PRIV_MANAGE_FORM_ACCESS_CONTROL)
@@ -119,7 +119,7 @@ public interface FormAccessControlService extends OpenmrsService {
 	 * 
 	 * @param role
 	 * @throws APIException
-	 * @should delete given forms successfully
+	 * @should delete form access controls for role successfully
 	 */
 	@Transactional
 	@Authorized(Constants.PRIV_MANAGE_FORM_ACCESS_CONTROL)
@@ -132,11 +132,8 @@ public interface FormAccessControlService extends OpenmrsService {
 	 * @return true if authenticated user has given privilege
 	 * @throws APIException
 	 * @should authorize if authenticated user has create privilege for the specified form
-	 * @should authorize if authenticated role has create privilege for the specified form
 	 * @should authorize if anonymous user has create privilege for the specified form
 	 * @should not authorize if authenticated user does not have create privilege for the specified
-	 *         form
-	 * @should not authorize if authenticated role does not have create privilege for the specified
 	 *         form
 	 * @should not authorize if anonymous user does not have create privilege for the specified form
 	 */
@@ -150,11 +147,8 @@ public interface FormAccessControlService extends OpenmrsService {
 	 * @return true if authenticated user has given privilege
 	 * @throws APIException
 	 * @should authorize if authenticated user has view privilege for the specified form
-	 * @should authorize if authenticated role has view privilege for the specified form
 	 * @should authorize if anonymous user has view privilege for the specified form
 	 * @should not authorize if authenticated user does not have view privilege for the specified
-	 *         form
-	 * @should not authorize if authenticated role does not have view privilege for the specified
 	 *         form
 	 * @should not authorize if anonymous user does not have view privilege for the specified form
 	 */
@@ -168,11 +162,8 @@ public interface FormAccessControlService extends OpenmrsService {
 	 * @return true if authenticated user has given privilege
 	 * @throws APIException
 	 * @should authorize if authenticated user has update privilege for the specified form
-	 * @should authorize if authenticated role has update privilege for the specified form
 	 * @should authorize if anonymous user has update privilege for the specified form
 	 * @should not authorize if authenticated user does not have update privilege for the specified
-	 *         form
-	 * @should not authorize if authenticated role does not have update privilege for the specified
 	 *         form
 	 * @should not authorize if anonymous user does not have update privilege for the specified form
 	 */
@@ -186,11 +177,8 @@ public interface FormAccessControlService extends OpenmrsService {
 	 * @return true if authenticated user has given privilege
 	 * @throws APIException
 	 * @should authorize if authenticated user has specified privilege for the specified form
-	 * @should authorize if authenticated role has specified privilege for the specified form
 	 * @should authorize if anonymous user has specified privilege for the specified form
 	 * @should not authorize if authenticated user does not have specified privilege for the
-	 *         specified form
-	 * @should not authorize if authenticated role does not have specified privilege for the
 	 *         specified form
 	 * @should not authorize if anonymous user does not have specified privilege for the specified
 	 *         form
