@@ -2,8 +2,6 @@
 
 <%@ include file="/WEB-INF/template/include.jsp" %>
 
-${command.context.mode}
-
 <c:if test="${command.context.mode == 'EDIT'}">
 	<formaccesscontrol:require form="${command.form}" privilege="EDIT" otherwise="/login.htm" />
 </c:if>

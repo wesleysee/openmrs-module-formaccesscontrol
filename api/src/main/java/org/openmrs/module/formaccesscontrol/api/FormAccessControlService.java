@@ -39,13 +39,13 @@ import org.springframework.transaction.annotation.Transactional;
 public interface FormAccessControlService extends OpenmrsService {
 	
 	/**
-	 * Create or update the given Form in the database
+	 * Create or update the given Form Access Control in the database
 	 * 
-	 * @param form the Form to save
-	 * @return the Form that was saved
+	 * @param formAccessControl the FormAccessControl to save
+	 * @return the FormAccessControl that was saved
 	 * @throws APIException
-	 * @should save given form successfully
-	 * @should update an existing form
+	 * @should save given form access control successfully
+	 * @should update an existing form access control
 	 */
 	@Transactional
 	@Authorized(Constants.PRIV_MANAGE_FORM_ACCESS_CONTROL)

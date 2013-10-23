@@ -33,8 +33,6 @@ public class FormPrivilegeTag extends TagSupport {
 	public int doStartTag() {
 		boolean hasPrivilege = false;
 		
-		System.out.println("inside here: " + form);
-		
 		if (form == null) {
 			hasPrivilege = true;
 		} else {

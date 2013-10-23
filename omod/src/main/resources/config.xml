@@ -30,7 +30,7 @@
 	
 	<advice>
 		<point>org.openmrs.api.FormService</point>
-		<class>@MODULE_PACKAGE@.api.advice.FormServiceAdvice</class>
+		<class>@MODULE_PACKAGE@.api.advice.FormServiceAdvisor</class>
 	</advice>
 	
 	<advice>

@@ -22,10 +22,13 @@ import org.openmrs.module.htmlformentry.FormEntrySession;
 import org.openmrs.module.htmlformentry.web.controller.HtmlFormEntryController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HtmlFormAccessControlEntryController {
@@ -57,5 +60,11 @@ public class HtmlFormAccessControlEntryController {
 	    throws Exception {
 		return htmlFormEntryController.getFormEntrySession(request, patientId, formId, htmlFormId, returnUrl,
 		    formModifiedTimestamp, encounterModifiedTimestamp, hasChangedInd);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView handleSubmit(@ModelAttribute("command") FormEntrySession session, Errors errors,
+	                                 HttpServletRequest request, Model model) throws Exception {
+		return htmlFormEntryController.handleSubmit(session, errors, request, model);
 	}
 }
