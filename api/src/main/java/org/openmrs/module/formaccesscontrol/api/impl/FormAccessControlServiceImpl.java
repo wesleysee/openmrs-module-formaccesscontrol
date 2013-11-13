@@ -176,7 +176,7 @@ public class FormAccessControlServiceImpl extends BaseOpenmrsService implements 
 				}
 			}
 			
-			return hasPrivilege(Context.getUserService().getRole(RoleConstants.AUTHENTICATED), form, predicate);
+			return false;
 		}
 		catch (Exception e) {
 			throw new APIException(e);

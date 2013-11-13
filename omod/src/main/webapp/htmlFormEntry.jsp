@@ -347,6 +347,7 @@
 </script>
 
 <div id="htmlFormEntryBanner">
+	<openmrs:globalProperty key="htmlformentry.pdfEnabled" var="pdfEnabled"/>
 	<spring:message var="backMessage" code="htmlformentry.goBack"/>
 	<c:if test="${!inPopup && (command.context.mode == 'ENTER' || command.context.mode == 'EDIT')}">
 		<spring:message var="backMessage" code="htmlformentry.discard"/>
@@ -355,7 +356,20 @@
 		<c:if test="${!inPopup}">
 			<span id="discardLinkSpan"><a href="<c:choose><c:when test="${not empty command.returnUrlWithParameters}">${command.returnUrlWithParameters}</c:when><c:otherwise>${pageContext.request.contextPath}/patientDashboard.form?patientId=${command.patient.patientId}</c:otherwise></c:choose>" class="html-form-entry-discard-changes">${backMessage}</a></span> | 
 		</c:if>
-		<span id="printLinkSpan"><a href="javascript:window.print();"><spring:message code="htmlformentry.print"/></a></span> &nbsp;<br/>
+		<span id="printLinkSpan"><a href="javascript:window.print();"><spring:message code="htmlformentry.print"/></a></span>
+		<c:if test="${pdfEnabled}"> |
+			<span id="pdfLinkSpan">
+			<c:url var="pdfUrl" value="/module/htmlformentry/htmlFormPdf.form">
+				<c:forEach var="p" items="${param}">
+					<c:if test="${p.key != 'mode'}">
+						<c:param name="${p.key}" value="${p.value}"/>
+					</c:if>
+				</c:forEach>
+			</c:url>
+			<a href="${pdfUrl}"><spring:message code="htmlformentry.pdf"/></a>
+			</span> 
+		</c:if>&nbsp;
+		<br/>
 	</div>
 	<div style="float:right">
 		<c:if test="${command.context.mode == 'VIEW'}">
