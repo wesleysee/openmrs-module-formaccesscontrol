@@ -70,7 +70,7 @@ public class HtmlFormEntryServiceAdvisor implements Advisor {
 				FormAccessControlService svc = Context.getService(FormAccessControlService.class);
 				while (i.hasNext()) {
 					HtmlForm htmlForm = i.next();
-					if (!svc.hasCreatePrivilege(htmlForm.getForm())) {
+					if (!svc.hasViewPrivilege(htmlForm.getForm())) {
 						i.remove();
 					}
 				}
