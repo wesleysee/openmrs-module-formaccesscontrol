@@ -13,9 +13,6 @@
  */
 package org.openmrs.module.formaccesscontrol.api.advice;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -63,18 +60,7 @@ public class HtmlFormEntryServiceAdvisor implements Advisor {
 			
 			Object o = invocation.proceed();
 			
-			if (methodName.equals("getAllHtmlForms")) {
-				@SuppressWarnings("unchecked")
-				List<HtmlForm> htmlForms = (List<HtmlForm>) o;
-				Iterator<HtmlForm> i = htmlForms.iterator();
-				FormAccessControlService svc = Context.getService(FormAccessControlService.class);
-				while (i.hasNext()) {
-					HtmlForm htmlForm = i.next();
-					if (!svc.hasViewPrivilege(htmlForm.getForm())) {
-						i.remove();
-					}
-				}
-			} else if (methodName.equals("getHtmlForm") || methodName.equals("getHtmlFormByForm")) {
+			if (methodName.equals("getHtmlForm") || methodName.equals("getHtmlFormByForm")) {
 				FormAccessControlService svc = Context.getService(FormAccessControlService.class);
 				HtmlForm htmlForm = (HtmlForm) o;
 				if (!svc.hasViewPrivilege(htmlForm.getForm())) {

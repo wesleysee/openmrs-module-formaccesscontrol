@@ -27,6 +27,10 @@
 		<point>org.openmrs.admin.forms.formHeader</point>
 		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.FormHeaderExt</class>
 	</extension>
+	<extension>
+		<point>org.openmrs.module.web.extension.FormEntryHandler</point>
+		<class>org.openmrs.module.formaccesscontrol.extension.html.FormAccessControlFormEntryHandlerExtension</class>
+	</extension>
 	
 	<advice>
 		<point>org.openmrs.api.FormService</point>

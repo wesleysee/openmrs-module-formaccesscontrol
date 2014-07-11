@@ -13,20 +13,30 @@
  */
 package org.openmrs.module.formaccesscontrol;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Form;
 import org.openmrs.Role;
 import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.Extension;
+import org.openmrs.module.Extension.MEDIA_TYPE;
 import org.openmrs.module.ModuleActivator;
+import org.openmrs.module.ModuleFactory;
 import org.openmrs.module.formaccesscontrol.api.FormAccessControlService;
+import org.openmrs.module.htmlformentry.extension.html.FormEntryHandlerExtension;
 import org.openmrs.util.RoleConstants;
 
 /**
  * This class contains the logic that is run every time this module is either started or stopped.
  */
 public class FormAccessControlActivator implements ModuleActivator {
+	
+	private static FormEntryHandlerExtension htmlFormEntryHandlerExtension = null;
 	
 	protected Log log = LogFactory.getLog(getClass());
 	
@@ -44,6 +54,8 @@ public class FormAccessControlActivator implements ModuleActivator {
 	@Override
 	public void contextRefreshed() {
 		log.info("Form Access Control Module refreshed");
+		
+		removeHtmlFormEntryFormEntryHandlerExtension();
 	}
 	
 	/**
@@ -87,6 +99,23 @@ public class FormAccessControlActivator implements ModuleActivator {
 		Context.removeProxyPrivilege("View Forms");
 		Context.removeProxyPrivilege(Constants.PRIV_VIEW_FORM_ACCESS_CONTROL);
 		Context.removeProxyPrivilege(Constants.PRIV_MANAGE_FORM_ACCESS_CONTROL);
+		
+		removeHtmlFormEntryFormEntryHandlerExtension();
+		
+	}
+	
+	private void removeHtmlFormEntryFormEntryHandlerExtension() {
+		Map<String, List<Extension>> extensionMap = ModuleFactory.getExtensionMap();
+		
+		Iterator<Extension> iterator = extensionMap.get(getHtmlFormEntryHandlerExtensionName()).iterator();
+		while (iterator.hasNext()) {
+			Extension extension = iterator.next();
+			
+			if (extension.getClass().equals(FormEntryHandlerExtension.class)) {
+				htmlFormEntryHandlerExtension = (FormEntryHandlerExtension) extension;
+				iterator.remove();
+			}
+		}
 	}
 	
 	/**
@@ -103,6 +132,14 @@ public class FormAccessControlActivator implements ModuleActivator {
 	@Override
 	public void stopped() {
 		log.info("Form Access Control Module stopped");
+		
+		if (htmlFormEntryHandlerExtension != null) {
+			ModuleFactory.getExtensionMap().get(getHtmlFormEntryHandlerExtensionName()).add(htmlFormEntryHandlerExtension);
+			htmlFormEntryHandlerExtension = null;
+		}
 	}
 	
+	private String getHtmlFormEntryHandlerExtensionName() {
+		return Extension.toExtensionId("org.openmrs.module.web.extension.FormEntryHandler", MEDIA_TYPE.html);
+	}
 }
